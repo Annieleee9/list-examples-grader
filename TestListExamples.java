@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 class IsMoon implements StringChecker {
   public boolean checkString(String s) {
@@ -18,4 +19,28 @@ public class TestListExamples {
     List<String> expected = Arrays.asList("a", "a", "b", "c", "d");
     assertEquals(expected, merged);
   }
+  @Test(timeout = 500)
+  public void testMergeDuplicates() {
+    List<String> left = Arrays.asList("a","a", "b", "c");
+    List<String> right = Arrays.asList("a","a", "d");
+    List<String> merged = ListExamples.merge(left, right);
+    List<String> expected = Arrays.asList("a", "a","a","a", "b", "c", "d");
+    assertEquals(expected, merged);
+  }
+  @Test(timeout = 500)
+  public void testFilterOrder() {
+    List<String> test = Arrays.asList("MOON", "moon", "potato", "Moon");
+    List<String> expected = Arrays.asList("MOON", "moon", "Moon");
+    IsMoon filter = new IsMoon();
+    List<String> filtered = ListExamples.filter(test, filter);
+    assertEquals(expected, filtered);
+  }
+  @Test(timeout = 500)
+  public void testFilterNew() {
+    List<String> test = new ArrayList<>();
+    IsMoon filter = new IsMoon();
+    List<String> filtered = ListExamples.filter(test, filter);
+    assertNotSame(test, filtered);
+  }
 }
+
